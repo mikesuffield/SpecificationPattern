@@ -9,13 +9,13 @@ In English, a specification is defined as
 
 ...and in Domain Driven Design, the premise is the same.
 
-Specifications encourage the use of the Single Responsibility Principle to segregate and encapsulate business rules into individual “specifications”, which can easily be re-used to avoid duplication of similar logic. They encapsulate *one* piece of logic only – nothing more. 
+Specifications encourage the use of the Single Responsibility Principle to segregate and encapsulate business rules into individual “specifications”, which can easily be re-used to avoid duplicating similar logic. They encapsulate *one* piece of logic only – nothing more. 
 
 The two most common use cases for using specifications are:
 - In memory validation of an object
 - Data retrieval
 
-Specifications can be chained together using basic Boolean operands (AND, OR, NOT etc) to form more complex domain logic, which can make complex database queries easier to read and put together. This means that they can be thought of as the "building blocks", with which you can build up rules for filter domain model objects.
+Specifications can be chained together using basic Boolean operands (AND, OR, NOT etc) to form more complex domain logic, which can make complex database queries easier to read and put together. This means that they can be thought of as the "building blocks", with which you can build up rules for filtering domain model objects.
 
 ### Pros
 
@@ -29,7 +29,9 @@ Specifications can be chained together using basic Boolean operands (AND, OR, NO
 
 ## Example Project Overview
 
-The example project is a service that is used to list menu items for a chinese restaurant. The aggregate root in this case is the MenuItem, and each MenuItem has a list of potential allergens. The user is able to filter the list of MenuItems based on the Type of meal (starter, main, dessert), as well as the presence (or lack) of specific allergens.
+The example project is a service that is used to list menu items for a chinese restaurant - this could be consumed by an on-premise POS system, by a fast food delivery mobile app, or by the restaurant website to simply display the menu. 
+
+The aggregate root in this case is the MenuItem, and each MenuItem has a list of potential allergens. The user is able to filter the list of MenuItems based on the Type of meal (starter, main, dessert), as well as the presence (or lack) of specific allergens.
 
 ## Resources
 
