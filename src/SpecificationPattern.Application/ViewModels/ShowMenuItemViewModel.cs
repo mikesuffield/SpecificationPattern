@@ -7,6 +7,11 @@ namespace SpecificationPattern.Application.ViewModels
 {
     public class ShowMenuItemViewModel
     {
+        public ShowMenuItemViewModel()
+        {
+
+        }
+
         public ShowMenuItemViewModel(MenuItemDto menuItemDto)
         {
             Id = menuItemDto.Id;

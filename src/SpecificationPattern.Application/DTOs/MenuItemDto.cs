@@ -10,6 +10,11 @@ namespace SpecificationPattern.Application.DTOs
 {
     public class MenuItemDto
     {
+        public MenuItemDto()
+        {
+
+        }
+
         public MenuItemDto(MenuItem menuItem)
         {
             Id = menuItem.Id;
