@@ -26,7 +26,7 @@ namespace SpecificationPattern.Application.Tests
                 new Allergen
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Soya",
+                    Name = AllergenType.Soya,
                 },
             },
         };

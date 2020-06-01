@@ -37,7 +37,7 @@ namespace SpecificationPattern.Api.Tests
         {
             var SUT = Setup();
 
-            var result = await SUT.Get();
+            var result = await SUT.Get(null, null);
             var okResult = result as ObjectResult;
 
             okResult.Should().NotBeNull();
@@ -99,7 +99,7 @@ namespace SpecificationPattern.Api.Tests
         private MenuItemsController Setup()
         {
             var mockShowMenuItemViewModelService = new Mock<IShowMenuItemViewModelService>();
-            mockShowMenuItemViewModelService.Setup(x => x.GetMenuItems()).Returns(Task.FromResult(MenuItems));
+            mockShowMenuItemViewModelService.Setup(x => x.GetMenuItems(null, null)).Returns(Task.FromResult(MenuItems));
             mockShowMenuItemViewModelService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(Task.FromResult(MenuItem));
 
             var mockMenuItemViewModelService = new Mock<IMenuItemViewModelService>();

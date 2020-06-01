@@ -1,4 +1,5 @@
 ﻿using SpecificationPattern.Core.Models;
+using SpecificationPattern.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace SpecificationPattern.Core.Interfaces
         Task<T> Find(Guid id);
 
         Task<IEnumerable<T>> All();
+
+        Task<IEnumerable<T>> All(ISpecification<T> specification);
 
         Task Remove(T entity);
     }

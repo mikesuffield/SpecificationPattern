@@ -26,7 +26,7 @@ namespace SpecificationPattern.Application.Tests
                 new AllergenDto
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Soya",
+                    Name = AllergenType.Soya,
                 },
             },
         };
@@ -42,7 +42,7 @@ namespace SpecificationPattern.Application.Tests
             var SUT = Setup();
 
             var expectedResult = MenuItemDtos.Select(x => new ShowMenuItemViewModel(x));
-            var result = await SUT.GetMenuItems();
+            var result = await SUT.GetMenuItems(null, null);
 
             result.Should().BeEquivalentTo(expectedResult);
         }

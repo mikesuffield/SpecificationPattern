@@ -28,12 +28,11 @@ namespace SpecificationPattern.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        // TODO: Add query string parameters to this endpoint to filter based on meal type and allergens
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] string mealType, [FromQuery] string allergens)
         {
             _logger.LogInformation("Called: /MenuItems/Get");
 
-            var menuItems = await _showMenuItemsViewModelService.GetMenuItems();
+            var menuItems = await _showMenuItemsViewModelService.GetMenuItems(mealType, allergens);
             return Ok(menuItems);
         }
 

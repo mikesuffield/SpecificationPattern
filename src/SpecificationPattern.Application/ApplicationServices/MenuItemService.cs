@@ -38,6 +38,10 @@ namespace SpecificationPattern.Application.ApplicationServices
         public async Task DeleteMenuItem(Guid id)
         {
             var menuItem = await _menuItemRepository.Find(id);
+            if (menuItem == null)
+            {
+                throw new Exception($"MenuItem with ID {id} could not be found");
+            }
             await _menuItemRepository.Remove(menuItem);
         }
     }

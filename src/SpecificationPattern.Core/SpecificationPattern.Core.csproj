@@ -8,8 +8,4 @@
     <ProjectReference Include="..\SpecificationPattern.Shared\SpecificationPattern.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Specifications\" />
-  </ItemGroup>
-
 </Project>

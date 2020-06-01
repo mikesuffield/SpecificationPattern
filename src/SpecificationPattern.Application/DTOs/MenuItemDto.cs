@@ -37,7 +37,7 @@ namespace SpecificationPattern.Application.DTOs
             Allergens = createMenuItemViewModel.Allergens.Select(allergen => new AllergenDto
             {
                 Id = Guid.NewGuid(),
-                Name = allergen,
+                Name = allergen.ToEnum<AllergenType>(),
             });
         }
 

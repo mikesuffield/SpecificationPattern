@@ -18,7 +18,7 @@ namespace SpecificationPattern.Application.ViewModels
             Name = menuItemDto.Name;
             Price = "£" + menuItemDto.Price.ToString("F");
             MealType = menuItemDto.MealType.ToString();
-            Allergens = menuItemDto.Allergens.Select(allergen => allergen.Name);
+            Allergens = menuItemDto.Allergens.Select(allergen => allergen.Name.ToString());
         }
 
         public Guid Id { get; set; }

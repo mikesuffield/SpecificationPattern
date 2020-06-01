@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
+using SpecificationPattern.Core.Specifications;
 using SpecificationPattern.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SpecificationPattern.Infrastructure.Sql
@@ -48,6 +50,36 @@ namespace SpecificationPattern.Infrastructure.Sql
             return menuItems;
         }
 
+
+        public async Task<IEnumerable<MenuItem>> All(ISpecification<MenuItem> specification)
+        {
+            var getAllMenuItemsQueryBuilder = new StringBuilder("SELECT * FROM MenuItems WHERE ");
+            var parameters = new Dictionary<string, object>();
+
+            specification.IsSatisfiedBy(getAllMenuItemsQueryBuilder, parameters);
+
+            var menuItems = await UnitOfWork.Query<MenuItem>(getAllMenuItemsQueryBuilder.ToString(), parameters);
+
+            if (menuItems.Any())
+            {
+                var menuItemIds = menuItems.Select(x => x.Id);
+
+                var getAllAllergensQuery = $"SELECT * FROM Allergens WHERE MenuItemId IN @menuItemIds";
+                var getAllAllergensParameters = new Dictionary<string, object>()
+                {
+                    { "menuItemIds", menuItemIds },
+                };
+                var allergens = await UnitOfWork.Query<Allergen>(getAllAllergensQuery, getAllAllergensParameters);
+
+                foreach (var menuItem in menuItems)
+                {
+                    menuItem.Allergens = allergens.Where(x => x.MenuItemId == menuItem.Id).AsEnumerable();
+                }
+            }
+
+            return menuItems;
+        }
+
         public async Task<MenuItem> Find(Guid id)
         {
             var idParameter = new Dictionary<string, object>()
@@ -61,8 +93,8 @@ namespace SpecificationPattern.Infrastructure.Sql
             var menuItem = menuItems.SingleOrDefault();
             if (menuItem == null)
             {
-                LogAndThrow($"MenuItem with id {id} could not be found");
-
+                _logger.LogInformation($"MenuItem with id {id} could not be found");
+                return null;
             }
 
             var getAllergensByMenuItemIdQuery = "SELECT * FROM Allergens WHERE MenuItemId = @id";

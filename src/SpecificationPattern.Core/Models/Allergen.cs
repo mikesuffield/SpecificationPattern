@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpecificationPattern.Shared.Enums;
+using System;
 
 namespace SpecificationPattern.Core.Models
 {
@@ -6,6 +7,6 @@ namespace SpecificationPattern.Core.Models
     {        
         public Guid MenuItemId { get; set; }
 
-        public string Name { get; set; } // TODO: Should this be an enum?
+        public AllergenType Name { get; set; }
     }
 }

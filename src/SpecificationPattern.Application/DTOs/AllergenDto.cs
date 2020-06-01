@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpecificationPattern.Shared.Enums;
+using System;
 
 namespace SpecificationPattern.Application.DTOs
 {
@@ -6,6 +7,6 @@ namespace SpecificationPattern.Application.DTOs
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public AllergenType Name { get; set; }
     }
 }

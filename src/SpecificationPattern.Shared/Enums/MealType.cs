@@ -2,6 +2,7 @@
 {
     public enum MealType
     {
+        Unknown,
         Starter,
         Main,
         Dessert,

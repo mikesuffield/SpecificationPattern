@@ -1,5 +1,8 @@
 ﻿using SpecificationPattern.Application.ApplicationServices;
+using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Application.ViewModels;
+using SpecificationPattern.Shared.Enums;
+using SpecificationPattern.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +26,19 @@ namespace SpecificationPattern.Application.ViewModelServices
             return new ShowMenuItemViewModel(menuItemDto);
         }
 
-        public async Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems()
+        public async Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(string mealType, string allergens)
         {
-            var menuItemDtos = await _showMenuItemService.GetAllMenuItems();
+            IEnumerable<MenuItemDto> menuItemDtos;
+
+            if (string.IsNullOrEmpty(mealType) && string.IsNullOrEmpty(allergens))
+            {
+                menuItemDtos = await _showMenuItemService.GetAllMenuItems();
+            }
+            else
+            {
+                var allergenEnums = allergens?.Split(",").Select(x => x.ToEnum<AllergenType>());
+                menuItemDtos = await _showMenuItemService.FilterByMealTypeAndExcludeAllergens(mealType, allergenEnums);
+            }
 
             return menuItemDtos.Select(menuItemDto => new ShowMenuItemViewModel(menuItemDto));
         }

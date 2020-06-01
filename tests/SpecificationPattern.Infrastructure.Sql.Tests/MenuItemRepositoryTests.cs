@@ -28,7 +28,7 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                 {
                     Id = AllergenId,
                     MenuItemId = MenuItemId,
-                    Name = "Soya",
+                    Name = AllergenType.Soya,
                 },
             },
         };
@@ -74,7 +74,7 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                 {
                     Id = AllergenId,
                     MenuItemId = MenuItemId,
-                    Name = "Soya"
+                    Name = AllergenType.Soya,
                 }
             }.AsEnumerable();
             var getAllAllergensQuery = "SELECT * FROM Allergens";
@@ -123,7 +123,7 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                 {
                     Id = AllergenId,
                     MenuItemId = MenuItemId,
-                    Name = "Soya",
+                    Name = AllergenType.Soya,
                 },
             }.AsEnumerable();
             mockUnitOfWork.Setup(x => x.Query<Allergen>(getAllergensByMenuItemIdQuery, It.IsAny<Dictionary<string, object>>())).Returns(Task.FromResult(allergens));
