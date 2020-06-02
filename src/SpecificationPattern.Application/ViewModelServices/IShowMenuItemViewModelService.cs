@@ -7,7 +7,7 @@ namespace SpecificationPattern.Application.ViewModelServices
 {
     public interface IShowMenuItemViewModelService
     {
-        Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(string type, string allergens);
+        Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(FilterViewModel filters);
 
         Task<ShowMenuItemViewModel> GetById(Guid id);
     }

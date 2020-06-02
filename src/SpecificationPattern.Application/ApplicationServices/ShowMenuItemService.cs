@@ -3,7 +3,6 @@ using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
 using SpecificationPattern.Core.Specifications;
 using SpecificationPattern.Shared.Enums;
-using SpecificationPattern.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,14 +38,16 @@ namespace SpecificationPattern.Application.ApplicationServices
             return new MenuItemDto(menuItem);
         }
 
-        public async Task<IEnumerable<MenuItemDto>> FilterByMealTypeAndExcludeAllergens(string mealType, IEnumerable<AllergenType> allergens)
+        public async Task<IEnumerable<MenuItemDto>> GetAllMenuItemsWithFilters(FilterDto filters)
         {
             ISpecification<MenuItem> specification;
 
-            if (!string.IsNullOrEmpty(mealType) && allergens != null && allergens.Any())
+            var mealType = filters.MealType;
+            var allergens = filters.Allergens;
+
+            if (!(mealType == MealType.Unknown) && allergens != null && allergens.Any())
             {
-                var mealTypeEnum = mealType.ToEnum<MealType>();
-                var mealTypeSpec = new MenuItemForMealTypeSpecification(mealTypeEnum);
+                var mealTypeSpec = new MenuItemForMealTypeSpecification(mealType);
                 var excludeAllergensSpec = new MenuItemForAllergensSpecification(allergens).Not();
 
                 specification = mealTypeSpec.And(excludeAllergensSpec);
@@ -57,8 +58,7 @@ namespace SpecificationPattern.Application.ApplicationServices
             }
             else
             {
-                var mealTypeEnum = mealType.ToEnum<MealType>();
-                specification = new MenuItemForMealTypeSpecification(mealTypeEnum);
+                specification = new MenuItemForMealTypeSpecification(mealType);
             }
 
             var menuItems = await _menuItemRepository.All(specification);

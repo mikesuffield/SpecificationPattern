@@ -27,7 +27,7 @@ namespace SpecificationPattern.Application.ApplicationServices
                 Allergens = menuItemDto.Allergens.Select(allergenDto => new Allergen
                 {
                     Id = allergenDto.Id,
-                    Name = allergenDto.Name,
+                    AllergenType = allergenDto.AllergenType,
                 }),
             };
 

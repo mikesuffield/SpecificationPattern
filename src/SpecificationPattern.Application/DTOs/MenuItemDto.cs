@@ -24,7 +24,7 @@ namespace SpecificationPattern.Application.DTOs
             Allergens = menuItem.Allergens.Select(allergen => new AllergenDto
             {
                 Id = allergen.Id,
-                Name = allergen.Name,
+                AllergenType = allergen.AllergenType,
             });
         }
 
@@ -37,7 +37,7 @@ namespace SpecificationPattern.Application.DTOs
             Allergens = createMenuItemViewModel.Allergens.Select(allergen => new AllergenDto
             {
                 Id = Guid.NewGuid(),
-                Name = allergen.ToEnum<AllergenType>(),
+                AllergenType = allergen.ToEnum<AllergenType>(),
             });
         }
 

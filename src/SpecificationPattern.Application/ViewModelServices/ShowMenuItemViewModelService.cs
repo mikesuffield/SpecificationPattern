@@ -26,18 +26,23 @@ namespace SpecificationPattern.Application.ViewModelServices
             return new ShowMenuItemViewModel(menuItemDto);
         }
 
-        public async Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(string mealType, string allergens)
+        public async Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(FilterViewModel filters)
         {
             IEnumerable<MenuItemDto> menuItemDtos;
 
-            if (string.IsNullOrEmpty(mealType) && string.IsNullOrEmpty(allergens))
+            if (string.IsNullOrEmpty(filters.Allergens) && string.IsNullOrEmpty(filters.MealType))
             {
                 menuItemDtos = await _showMenuItemService.GetAllMenuItems();
             }
             else
             {
-                var allergenEnums = allergens?.Split(",").Select(x => x.ToEnum<AllergenType>());
-                menuItemDtos = await _showMenuItemService.FilterByMealTypeAndExcludeAllergens(mealType, allergenEnums);
+                var filterDto = new FilterDto
+                {
+                    MealType = string.IsNullOrEmpty(filters.MealType) ? MealType.Unknown : filters.MealType.ToEnum<MealType>(),
+                    Allergens = filters.Allergens?.Split(",").Select(x => x.ToEnum<AllergenType>()),
+                };
+
+                menuItemDtos = await _showMenuItemService.GetAllMenuItemsWithFilters(filterDto);
             }
 
             return menuItemDtos.Select(menuItemDto => new ShowMenuItemViewModel(menuItemDto));

@@ -1,4 +1,5 @@
 ﻿using SpecificationPattern.Application.DTOs;
+using SpecificationPattern.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace SpecificationPattern.Application.ViewModels
             Name = menuItemDto.Name;
             Price = "£" + menuItemDto.Price.ToString("F");
             MealType = menuItemDto.MealType.ToString();
-            Allergens = menuItemDto.Allergens.Select(allergen => allergen.Name.ToString());
+            Allergens = menuItemDto.Allergens.Select(allergen => allergen.AllergenType.DisplayName());
         }
 
         public Guid Id { get; set; }

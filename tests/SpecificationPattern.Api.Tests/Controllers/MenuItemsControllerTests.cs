@@ -32,12 +32,18 @@ namespace SpecificationPattern.Api.Tests
             MenuItem,
         };
 
+        private static readonly FilterViewModel FilterViewModel = new FilterViewModel
+        {
+            MealType = "Main",
+            Allergens = "Fish,Sesame",
+        };
+
         [Fact]
         public async Task Get_ReturnsMenuItems()
         {
             var SUT = Setup();
 
-            var result = await SUT.Get(null, null);
+            var result = await SUT.Get(FilterViewModel);
             var okResult = result as ObjectResult;
 
             okResult.Should().NotBeNull();
@@ -99,12 +105,14 @@ namespace SpecificationPattern.Api.Tests
         private MenuItemsController Setup()
         {
             var mockShowMenuItemViewModelService = new Mock<IShowMenuItemViewModelService>();
-            mockShowMenuItemViewModelService.Setup(x => x.GetMenuItems(null, null)).Returns(Task.FromResult(MenuItems));
-            mockShowMenuItemViewModelService.Setup(x => x.GetById(It.IsAny<Guid>())).Returns(Task.FromResult(MenuItem));
+            mockShowMenuItemViewModelService.Setup(x => x.GetMenuItems(FilterViewModel))
+                .Returns(Task.FromResult(MenuItems));
+            mockShowMenuItemViewModelService.Setup(x => x.GetById(It.IsAny<Guid>()))
+                .Returns(Task.FromResult(MenuItem));
 
             var mockMenuItemViewModelService = new Mock<IMenuItemViewModelService>();
-            mockMenuItemViewModelService.Setup(x => x.Create(It.IsAny<CreateMenuItemViewModel>())).Returns(Task.FromResult(MenuItem));
-            mockMenuItemViewModelService.Setup(x => x.Delete(It.IsAny<Guid>()));
+            mockMenuItemViewModelService.Setup(x => x.Create(It.IsAny<CreateMenuItemViewModel>()))
+                .Returns(Task.FromResult(MenuItem));
 
             var mockLogger = new Mock<ILogger<MenuItemsController>>();
 

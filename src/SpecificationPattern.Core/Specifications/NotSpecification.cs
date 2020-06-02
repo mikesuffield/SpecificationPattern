@@ -3,29 +3,24 @@ using System.Text;
 
 namespace SpecificationPattern.Core.Specifications
 {
-    public sealed class OrSpecification<T> : ISpecification<T>
+    public sealed class NotSpecification<T> : ISpecification<T>
     {
-        private readonly ISpecification<T> _left;
-        private readonly ISpecification<T> _right;
+        private readonly ISpecification<T> _specification;
 
-        public OrSpecification(ISpecification<T> left, ISpecification<T> right)
+        public NotSpecification(ISpecification<T> specification)
         {
-            _left = left;
-            _right = right;
+            _specification = specification;
         }
 
         public bool IsSatisfiedBy(T entity)
         {
-            return _left.IsSatisfiedBy(entity) || _right.IsSatisfiedBy(entity);
+            return !_specification.IsSatisfiedBy(entity);
         }
 
         public void IsSatisfiedBy(StringBuilder builder, IDictionary<string, object> parameters)
         {
-            builder.Append("(");
-            _left.IsSatisfiedBy(builder, parameters);
-            builder.Append(") OR (");
-            _right.IsSatisfiedBy(builder, parameters);
-            builder.Append(")");
+            builder.Append("NOT ");
+            _specification.IsSatisfiedBy(builder, parameters);
         }
     }
 }

@@ -176,12 +176,12 @@ namespace SpecificationPattern.Infrastructure.Sql
 
             foreach (var allergen in entity.Allergens)
             {
-                var insertAllergensQuery = "INSERT INTO Allergens ([Id], [MenuItemId], [Name], [CreatedAt]) OUTPUT Inserted.RowRevision VALUES (@id, @menuItemId, @name, @createdAt)";
+                var insertAllergensQuery = "INSERT INTO Allergens ([Id], [MenuItemId], [AllergenType], [CreatedAt]) OUTPUT Inserted.RowRevision VALUES (@id, @menuItemId, @allergenType, @createdAt)";
                 var insertAllergensParameters = new Dictionary<string, object>()
                 {
                     { "id", allergen.Id },
                     { "menuItemId", entity.Id },
-                    { "name", allergen.Name },
+                    { "allergenType", allergen.AllergenType.ToString() },
                     { "createdAt", now },
                 };
 

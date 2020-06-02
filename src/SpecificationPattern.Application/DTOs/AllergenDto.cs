@@ -7,6 +7,6 @@ namespace SpecificationPattern.Application.DTOs
     {
         public Guid Id { get; set; }
 
-        public AllergenType Name { get; set; }
+        public AllergenType AllergenType { get; set; }
     }
 }

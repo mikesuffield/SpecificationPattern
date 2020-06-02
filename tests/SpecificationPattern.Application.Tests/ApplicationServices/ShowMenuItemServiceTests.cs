@@ -4,6 +4,7 @@ using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
+using SpecificationPattern.Core.Specifications;
 using SpecificationPattern.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace SpecificationPattern.Application.Tests
                 new Allergen
                 {
                     Id = Guid.NewGuid(),
-                    Name = AllergenType.Soya,
+                    AllergenType = AllergenType.Soya,
                 },
             },
         };
@@ -58,11 +59,35 @@ namespace SpecificationPattern.Application.Tests
             result.Should().BeEquivalentTo(expectedResult);
         }
 
+        [Fact]
+        public async Task GetAllMenuItemsWithFilters_ReturnsMenuItemDtos()
+        {
+            var SUT = Setup();
+
+            var expectedResult =  MenuItems.Select(x => new MenuItemDto(x));
+
+            var filterDto = new FilterDto
+            {
+                MealType = MealType.Starter,
+                Allergens = new List<AllergenType>
+                {
+                    AllergenType.Soya,
+                },
+            };
+            var result = await SUT.GetAllMenuItemsWithFilters(filterDto);
+
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
         private ShowMenuItemService Setup()
         {
             var mockRepository = new Mock<IMenuItemRepository>();
-            mockRepository.Setup(x => x.All()).Returns(Task.FromResult(MenuItems));
-            mockRepository.Setup(x => x.Find(MenuItem.Id)).Returns(Task.FromResult(MenuItem));
+            mockRepository.Setup(x => x.All())
+                .Returns(Task.FromResult(MenuItems));
+            mockRepository.Setup(x => x.Find(MenuItem.Id))
+                .Returns(Task.FromResult(MenuItem));
+            mockRepository.Setup(x => x.All(It.IsAny<ISpecification<MenuItem>>()))
+                .Returns(Task.FromResult(MenuItems));
 
             var SUT = new ShowMenuItemService(mockRepository.Object);
 

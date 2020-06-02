@@ -28,7 +28,7 @@ namespace SpecificationPattern.Application.Tests
                 new AllergenDto
                 {
                     Id = Guid.NewGuid(),
-                    Name = AllergenType.Soya,
+                    AllergenType = AllergenType.Soya,
                 },
             },
         };
@@ -71,8 +71,8 @@ namespace SpecificationPattern.Application.Tests
 
         private MenuItemViewModelService Setup(Mock<IUnitOfWork> mockUnitOfWork)
         {
-            MockService.Setup(x => x.CreateMenuItem(It.IsAny<MenuItemDto>())).Returns(Task.FromResult(CreatedDto));
-            MockService.Setup(x => x.DeleteMenuItem(It.IsAny<Guid>()));
+            MockService.Setup(x => x.CreateMenuItem(It.IsAny<MenuItemDto>()))
+                .Returns(Task.FromResult(CreatedDto));
 
             var SUT = new MenuItemViewModelService(MockService.Object, mockUnitOfWork.Object);
 

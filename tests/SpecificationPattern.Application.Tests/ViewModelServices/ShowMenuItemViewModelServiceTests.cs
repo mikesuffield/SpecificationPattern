@@ -26,7 +26,7 @@ namespace SpecificationPattern.Application.Tests
                 new AllergenDto
                 {
                     Id = Guid.NewGuid(),
-                    Name = AllergenType.Soya,
+                    AllergenType = AllergenType.Soya,
                 },
             },
         };
@@ -42,7 +42,8 @@ namespace SpecificationPattern.Application.Tests
             var SUT = Setup();
 
             var expectedResult = MenuItemDtos.Select(x => new ShowMenuItemViewModel(x));
-            var result = await SUT.GetMenuItems(null, null);
+            var filterViewModel = new FilterViewModel();
+            var result = await SUT.GetMenuItems(filterViewModel);
 
             result.Should().BeEquivalentTo(expectedResult);
         }
@@ -61,8 +62,10 @@ namespace SpecificationPattern.Application.Tests
         private ShowMenuItemViewModelService Setup()
         {
             var mockService = new Mock<IShowMenuItemService>();
-            mockService.Setup(x => x.GetMenuItemById(MenuItemDto.Id)).Returns(Task.FromResult(MenuItemDto));
-            mockService.Setup(x => x.GetAllMenuItems()).Returns(Task.FromResult(MenuItemDtos));
+            mockService.Setup(x => x.GetMenuItemById(MenuItemDto.Id))
+                .Returns(Task.FromResult(MenuItemDto));
+            mockService.Setup(x => x.GetAllMenuItems())
+                .Returns(Task.FromResult(MenuItemDtos));
 
             var SUT = new ShowMenuItemViewModelService(mockService.Object);
 

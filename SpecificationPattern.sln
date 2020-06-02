@@ -23,11 +23,13 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SpecificationPattern.Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificationPattern.Api.Tests", "tests\SpecificationPattern.Api.Tests\SpecificationPattern.Api.Tests.csproj", "{C2980A25-FC47-4D99-BAD9-6008415785D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationPattern.Application.Tests", "tests\SpecificationPattern.Application.Tests\SpecificationPattern.Application.Tests.csproj", "{564F951C-2A11-4808-9A86-AF8EE80284A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificationPattern.Application.Tests", "tests\SpecificationPattern.Application.Tests\SpecificationPattern.Application.Tests.csproj", "{564F951C-2A11-4808-9A86-AF8EE80284A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationPattern.Infrastructure.Sql.Tests", "tests\SpecificationPattern.Infrastructure.Sql.Tests\SpecificationPattern.Infrastructure.Sql.Tests.csproj", "{B8D82D04-9DAD-442D-970E-DAB3FC2395F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificationPattern.Infrastructure.Sql.Tests", "tests\SpecificationPattern.Infrastructure.Sql.Tests\SpecificationPattern.Infrastructure.Sql.Tests.csproj", "{B8D82D04-9DAD-442D-970E-DAB3FC2395F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationPattern.Shared.Tests", "tests\SpecificationPattern.Shared.Tests\SpecificationPattern.Shared.Tests.csproj", "{DC04B253-BD61-46A3-8E37-4A07E816269B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificationPattern.Shared.Tests", "tests\SpecificationPattern.Shared.Tests\SpecificationPattern.Shared.Tests.csproj", "{DC04B253-BD61-46A3-8E37-4A07E816269B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationPattern.Core.Tests", "tests\SpecificationPattern.Core.Tests\SpecificationPattern.Core.Tests.csproj", "{0B0704F2-BC70-4C45-88E7-86AE253C2F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{DC04B253-BD61-46A3-8E37-4A07E816269B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC04B253-BD61-46A3-8E37-4A07E816269B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC04B253-BD61-46A3-8E37-4A07E816269B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0704F2-BC70-4C45-88E7-86AE253C2F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0704F2-BC70-4C45-88E7-86AE253C2F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0704F2-BC70-4C45-88E7-86AE253C2F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0704F2-BC70-4C45-88E7-86AE253C2F8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{564F951C-2A11-4808-9A86-AF8EE80284A6} = {B5A2CA1B-7188-4142-96DA-DC41CDA0793E}
 		{B8D82D04-9DAD-442D-970E-DAB3FC2395F3} = {B5A2CA1B-7188-4142-96DA-DC41CDA0793E}
 		{DC04B253-BD61-46A3-8E37-4A07E816269B} = {B5A2CA1B-7188-4142-96DA-DC41CDA0793E}
+		{0B0704F2-BC70-4C45-88E7-86AE253C2F8D} = {B5A2CA1B-7188-4142-96DA-DC41CDA0793E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97F1559F-41B2-4246-B37E-A114EBA59B5F}

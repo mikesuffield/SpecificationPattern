@@ -7,6 +7,6 @@ namespace SpecificationPattern.Core.Models
     {        
         public Guid MenuItemId { get; set; }
 
-        public AllergenType Name { get; set; }
+        public AllergenType AllergenType { get; set; }
     }
 }

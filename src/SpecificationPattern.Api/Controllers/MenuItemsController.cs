@@ -28,11 +28,11 @@ namespace SpecificationPattern.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string mealType, [FromQuery] string allergens)
+        public async Task<IActionResult> Get([FromQuery] FilterViewModel filters)
         {
             _logger.LogInformation("Called: /MenuItems/Get");
 
-            var menuItems = await _showMenuItemsViewModelService.GetMenuItems(mealType, allergens);
+            var menuItems = await _showMenuItemsViewModelService.GetMenuItems(filters);
             return Ok(menuItems);
         }
 

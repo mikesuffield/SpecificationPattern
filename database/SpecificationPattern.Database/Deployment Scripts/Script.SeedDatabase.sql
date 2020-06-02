@@ -35,7 +35,7 @@ VALUES
 ('1a0701ac-7ea2-4f88-a414-17265a2b4df9', 'Banana Fritters', '3.60', 'Dessert')
 
 
-INSERT INTO [dbo].[Allergens] ([Id], [MenuItemId], [Name])
+INSERT INTO [dbo].[Allergens] ([Id], [MenuItemId], [AllergenType])
 VALUES
 ('BAC64D13-2088-41F3-8245-FAC595F35D89', 'B48AF7A0-065D-46F8-A904-D723D9ECCA6D', 'CerealsContainingGluten'),
 ('FF785646-9336-4002-91F1-3F60B9A74417', 'B48AF7A0-065D-46F8-A904-D723D9ECCA6D', 'Eggs'),

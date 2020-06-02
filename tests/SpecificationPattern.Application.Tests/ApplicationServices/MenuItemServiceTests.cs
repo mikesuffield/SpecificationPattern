@@ -28,7 +28,7 @@ namespace SpecificationPattern.Application.Tests
                 new AllergenDto
                 {
                     Id = Guid.NewGuid(),
-                    Name = AllergenType.Soya,
+                    AllergenType = AllergenType.Soya,
                 },
             },
         };
@@ -42,7 +42,7 @@ namespace SpecificationPattern.Application.Tests
             Allergens = MenuItemDto.Allergens.Select(allergenDto => new Allergen
             {
                 Id = allergenDto.Id,
-                Name = allergenDto.Name,
+                AllergenType = allergenDto.AllergenType,
             }),
         };
 
@@ -69,9 +69,10 @@ namespace SpecificationPattern.Application.Tests
 
         private MenuItemService Setup()
         {
-            MockRepository.Setup(x => x.Add(It.IsAny<MenuItem>())).Returns(Task.FromResult(MenuItem));
-            MockRepository.Setup(x => x.Find(MenuItem.Id)).Returns(Task.FromResult(MenuItem));
-            MockRepository.Setup(x => x.Remove(MenuItem));
+            MockRepository.Setup(x => x.Add(It.IsAny<MenuItem>()))
+                .Returns(Task.FromResult(MenuItem));
+            MockRepository.Setup(x => x.Find(MenuItem.Id))
+                .Returns(Task.FromResult(MenuItem));
 
             var SUT = new MenuItemService(MockRepository.Object);
 

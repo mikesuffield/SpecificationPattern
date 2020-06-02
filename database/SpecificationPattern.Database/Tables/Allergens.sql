@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Allergens] (
     [Id]            UNIQUEIDENTIFIER NOT NULL,
     [MenuItemId]    UNIQUEIDENTIFIER NOT NULL,
-    [Name]          NVARCHAR(100)    NOT NULL,
+    [AllergenType]  NVARCHAR(100)    NOT NULL,
     [CreatedAt]     DATETIME         CONSTRAINT [Allergens_CreatedAtDefault] DEFAULT (getutcdate()) NOT NULL,
     [UpdatedAt]     DATETIME         NULL,
     [RowRevision]   ROWVERSION       NOT NULL,
