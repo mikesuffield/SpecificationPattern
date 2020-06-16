@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace SpecificationPattern.Application.ViewModels
 {
@@ -8,6 +9,6 @@ namespace SpecificationPattern.Application.ViewModels
         public string MealType { get; set; }
 
         [FromQuery(Name = "allergens")]
-        public string Allergens { get; set; }
+        public IEnumerable<string> Allergens { get; set; }
     }
 }

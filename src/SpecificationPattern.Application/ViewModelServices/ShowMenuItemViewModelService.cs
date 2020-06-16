@@ -34,7 +34,7 @@ namespace SpecificationPattern.Application.ViewModelServices
         {
             IEnumerable<MenuItemDto> menuItemDtos;
 
-            if (string.IsNullOrEmpty(filters.Allergens) && string.IsNullOrEmpty(filters.MealType))
+            if ((filters.Allergens == null || !filters.Allergens.Any()) && string.IsNullOrEmpty(filters.MealType))
             {
                 menuItemDtos = await _showMenuItemService.GetAllMenuItems();
             }
@@ -43,7 +43,7 @@ namespace SpecificationPattern.Application.ViewModelServices
                 var filterDto = new FilterDto
                 {
                     MealType = string.IsNullOrEmpty(filters.MealType) ? MealType.Unknown : filters.MealType.ToEnum<MealType>(),
-                    Allergens = filters.Allergens?.Split(",").Select(x => x.ToEnum<AllergenType>()),
+                    Allergens = filters.Allergens?.Select(x => x.ToEnum<AllergenType>()),
                 };
 
                 menuItemDtos = await _showMenuItemService.GetAllMenuItemsWithFilters(filterDto);

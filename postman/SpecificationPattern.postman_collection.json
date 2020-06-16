@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Sweetcorn Soup\",\n\t\"price\": 3.50,\n\t\"mealType\": \"Starter\",\n\t\"allergens\": [\"Sweetcorn\", \"Soya\"]\n}",
+					"raw": "{\n\t\"name\": \"Sweetcorn Soup\",\n\t\"price\": 3.50,\n\t\"mealType\": \"Starter\",\n\t\"allergens\": [\"Sulphites\", \"Soya\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -58,7 +58,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:5001/menuitems?MealType=Starter&Allergens=Peanuts,Fish",
+					"raw": "https://localhost:5001/menuitems?MealType=Starter&Allergens=Peanuts&Allergens=Fish",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -74,7 +74,11 @@
 						},
 						{
 							"key": "Allergens",
-							"value": "Peanuts,Fish"
+							"value": "Peanuts"
+						},
+						{
+							"key": "Allergens",
+							"value": "Fish"
 						}
 					]
 				}

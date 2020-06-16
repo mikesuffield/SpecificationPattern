@@ -35,7 +35,11 @@ namespace SpecificationPattern.Api.Tests
         private static readonly FilterViewModel FilterViewModel = new FilterViewModel
         {
             MealType = "Main",
-            Allergens = "Fish,Sesame",
+            Allergens = new List<string>
+            {
+                "Fish",
+                "Sesame",
+            },
         };
 
         [Fact]
