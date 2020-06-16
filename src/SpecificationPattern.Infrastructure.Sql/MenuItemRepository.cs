@@ -25,6 +25,7 @@ namespace SpecificationPattern.Infrastructure.Sql
 
         public async Task<MenuItem> Add(MenuItem entity)
         {
+            entity.Id = Guid.NewGuid();
             await AddMenuItem(entity);
             await AddAllergens(entity);
 
@@ -179,7 +180,7 @@ namespace SpecificationPattern.Infrastructure.Sql
                 var insertAllergensQuery = "INSERT INTO Allergens ([Id], [MenuItemId], [AllergenType], [CreatedAt]) OUTPUT Inserted.RowRevision VALUES (@id, @menuItemId, @allergenType, @createdAt)";
                 var insertAllergensParameters = new Dictionary<string, object>()
                 {
-                    { "id", allergen.Id },
+                    { "id", Guid.NewGuid() },
                     { "menuItemId", entity.Id },
                     { "allergenType", allergen.AllergenType.ToString() },
                     { "createdAt", now },

@@ -1,8 +1,8 @@
-﻿using SpecificationPattern.Application.DTOs;
+﻿using AutoMapper;
+using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpecificationPattern.Application.ApplicationServices
@@ -10,29 +10,22 @@ namespace SpecificationPattern.Application.ApplicationServices
     public class MenuItemService : IMenuItemService
     {
         private readonly IMenuItemRepository _menuItemRepository;
+        private readonly IMapper _mapper;
 
-        public MenuItemService(IMenuItemRepository menuItemRepository)
+        public MenuItemService(IMenuItemRepository menuItemRepository, IMapper mapper)
         {
             _menuItemRepository = menuItemRepository;
+            _mapper = mapper;
         }
 
         public async Task<MenuItemDto> CreateMenuItem(MenuItemDto menuItemDto)
         {
-            var menuItem = new MenuItem
-            {
-                Id = menuItemDto.Id,
-                Name = menuItemDto.Name,
-                Price = menuItemDto.Price,
-                MealType = menuItemDto.MealType,
-                Allergens = menuItemDto.Allergens.Select(allergenDto => new Allergen
-                {
-                    Id = allergenDto.Id,
-                    AllergenType = allergenDto.AllergenType,
-                }),
-            };
+            var menuItem = _mapper.Map<MenuItem>(menuItemDto);
 
             var createdMenuItem = await _menuItemRepository.Add(menuItem);
-            return new MenuItemDto(createdMenuItem);
+
+            var createdMenuItemDto = _mapper.Map<MenuItemDto>(createdMenuItem);
+            return createdMenuItemDto;
         }
 
         public async Task DeleteMenuItem(Guid id)

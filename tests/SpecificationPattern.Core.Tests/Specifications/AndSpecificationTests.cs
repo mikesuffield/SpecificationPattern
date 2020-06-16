@@ -18,10 +18,14 @@ namespace SpecificationPattern.Core.Tests.Specifications
         public void IsSatisfiedBy_ReturnsCorrectValue(bool leftBool, bool rightBool, bool expectedResult)
         {
             var mockLeftSpecification = new Mock<ISpecification<object>>();
-            mockLeftSpecification.Setup(x => x.IsSatisfiedBy(It.IsAny<object>())).Returns(leftBool);
+            mockLeftSpecification
+                .Setup(x => x.IsSatisfiedBy(It.IsAny<object>()))
+                .Returns(leftBool);
 
             var mockRightSpecification = new Mock<ISpecification<object>>();
-            mockRightSpecification.Setup(x => x.IsSatisfiedBy(It.IsAny<object>())).Returns(rightBool);
+            mockRightSpecification
+                .Setup(x => x.IsSatisfiedBy(It.IsAny<object>()))
+                .Returns(rightBool);
 
             var andSpecification = mockLeftSpecification.Object.And(mockRightSpecification.Object);
             var result = andSpecification.IsSatisfiedBy(It.IsAny<object>());
@@ -36,7 +40,8 @@ namespace SpecificationPattern.Core.Tests.Specifications
             var parameters = new Dictionary<string, object>();
 
             var mockLeftSpecification = new Mock<ISpecification<object>>();
-            mockLeftSpecification.Setup(x => x.IsSatisfiedBy(builder, parameters))
+            mockLeftSpecification
+                .Setup(x => x.IsSatisfiedBy(builder, parameters))
                 .Callback(() =>
                 {
                     builder.Append("[MealType] = @mealType");
@@ -44,7 +49,8 @@ namespace SpecificationPattern.Core.Tests.Specifications
                 });
 
             var mockRightSpecification = new Mock<ISpecification<object>>();
-            mockRightSpecification.Setup(x => x.IsSatisfiedBy(builder, parameters))
+            mockRightSpecification
+                .Setup(x => x.IsSatisfiedBy(builder, parameters))
                 .Callback(() =>
                 {
                     builder.Append("[Id] = @id");

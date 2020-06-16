@@ -1,10 +1,13 @@
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
+using SpecificationPattern.Application.Profiles;
 using SpecificationPattern.Application.ViewModels;
 using SpecificationPattern.Application.ViewModelServices;
 using SpecificationPattern.Shared.Enums;
+using SpecificationPattern.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +44,15 @@ namespace SpecificationPattern.Application.Tests
         {
             var SUT = Setup();
 
-            var expectedResult = MenuItemDtos.Select(x => new ShowMenuItemViewModel(x));
+            var expectedResult = MenuItemDtos.Select(x => new ShowMenuItemViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = $"£{x.Price:F}",
+                MealType = x.MealType.ToString(),
+                Allergens = x.Allergens.Select(y => y.AllergenType.DisplayName()),
+            });
+
             var filterViewModel = new FilterViewModel();
             var result = await SUT.GetMenuItems(filterViewModel);
 
@@ -53,7 +64,15 @@ namespace SpecificationPattern.Application.Tests
         {
             var SUT = Setup();
 
-            var expectedResult = new ShowMenuItemViewModel(MenuItemDto);
+            var expectedResult = new ShowMenuItemViewModel
+            {
+                Id = MenuItemDto.Id,
+                Name = MenuItemDto.Name,
+                Price = $"£{MenuItemDto.Price:F}",
+                MealType = MenuItemDto.MealType.ToString(),
+                Allergens = MenuItemDto.Allergens.Select(y => y.AllergenType.DisplayName()),
+            };
+
             var result = await SUT.GetById(MenuItemDto.Id);
 
             result.Should().BeEquivalentTo(expectedResult);
@@ -62,12 +81,20 @@ namespace SpecificationPattern.Application.Tests
         private ShowMenuItemViewModelService Setup()
         {
             var mockService = new Mock<IShowMenuItemService>();
-            mockService.Setup(x => x.GetMenuItemById(MenuItemDto.Id))
+            mockService
+                .Setup(x => x.GetMenuItemById(MenuItemDto.Id))
                 .Returns(Task.FromResult(MenuItemDto));
-            mockService.Setup(x => x.GetAllMenuItems())
+            mockService
+                .Setup(x => x.GetAllMenuItems())
                 .Returns(Task.FromResult(MenuItemDtos));
 
-            var SUT = new ShowMenuItemViewModelService(mockService.Object);
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MenuItemProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+            var SUT = new ShowMenuItemViewModelService(mockService.Object, mapper);
 
             return SUT;
         }

@@ -1,7 +1,9 @@
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
+using SpecificationPattern.Application.Profiles;
 using SpecificationPattern.Application.ViewModels;
 using SpecificationPattern.Application.ViewModelServices;
 using SpecificationPattern.Shared.Enums;
@@ -49,7 +51,18 @@ namespace SpecificationPattern.Application.Tests
                 }
             };
 
-            var expectedResult = new ShowMenuItemViewModel(CreatedDto);
+            var expectedResult = new ShowMenuItemViewModel 
+            {
+                Id = CreatedDto.Id,
+                Name = "Test",
+                Price = "£1.99",
+                MealType = "Starter",
+                Allergens = new List<string>
+                {
+                    "Soya",
+                },
+            };
+
             var result = await SUT.Create(createMenuItemViewModel);
 
             result.Should().BeEquivalentTo(expectedResult);
@@ -71,10 +84,17 @@ namespace SpecificationPattern.Application.Tests
 
         private MenuItemViewModelService Setup(Mock<IUnitOfWork> mockUnitOfWork)
         {
-            MockService.Setup(x => x.CreateMenuItem(It.IsAny<MenuItemDto>()))
+            MockService
+                .Setup(x => x.CreateMenuItem(It.IsAny<MenuItemDto>()))
                 .Returns(Task.FromResult(CreatedDto));
 
-            var SUT = new MenuItemViewModelService(MockService.Object, mockUnitOfWork.Object);
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MenuItemProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+            var SUT = new MenuItemViewModelService(MockService.Object, mockUnitOfWork.Object, mapper);
 
             return SUT;
         }

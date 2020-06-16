@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SpecificationPattern.Application\SpecificationPattern.Application.csproj" />
     <ProjectReference Include="..\SpecificationPattern.Infrastructure.Sql\SpecificationPattern.Infrastructure.Sql.csproj" />
   </ItemGroup>

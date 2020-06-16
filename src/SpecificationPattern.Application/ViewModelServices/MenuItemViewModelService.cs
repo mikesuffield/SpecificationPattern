@@ -1,4 +1,5 @@
-﻿using SpecificationPattern.Application.ApplicationServices;
+﻿using AutoMapper;
+using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Application.ViewModels;
 using SpecificationPattern.Shared.Interfaces;
@@ -11,23 +12,27 @@ namespace SpecificationPattern.Application.ViewModelServices
     {
         private readonly IMenuItemService _menuItemService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public MenuItemViewModelService(
             IMenuItemService menuItemService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             _menuItemService = menuItemService;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ShowMenuItemViewModel> Create(CreateMenuItemViewModel createMenuItemViewModel)
         {
-            var createMenuItemDto = new MenuItemDto(createMenuItemViewModel);
+            var createMenuItemDto = _mapper.Map<MenuItemDto>(createMenuItemViewModel);
 
             var createdDto = await _menuItemService.CreateMenuItem(createMenuItemDto);
             _unitOfWork.Complete();
 
-            return new ShowMenuItemViewModel(createdDto);
+            var showMenuItemViewModel = _mapper.Map<ShowMenuItemViewModel>(createdDto);
+            return showMenuItemViewModel;
         }
 
         public async Task Delete(Guid id)

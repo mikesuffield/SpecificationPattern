@@ -1,4 +1,5 @@
-﻿using SpecificationPattern.Application.DTOs;
+﻿using AutoMapper;
+using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
 using SpecificationPattern.Core.Specifications;
@@ -13,17 +14,20 @@ namespace SpecificationPattern.Application.ApplicationServices
     public class ShowMenuItemService : IShowMenuItemService
     {
         private readonly IMenuItemRepository _menuItemRepository;
+        private readonly IMapper _mapper;
 
-        public ShowMenuItemService(IMenuItemRepository menuItemRepository)
+        public ShowMenuItemService(IMenuItemRepository menuItemRepository, IMapper mapper)
         {
             _menuItemRepository = menuItemRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<MenuItemDto>> GetAllMenuItems()
         {
             var menuItems = await _menuItemRepository.All();
 
-            return menuItems.Select(menuItem => new MenuItemDto(menuItem));
+            var menuItemDtos = _mapper.Map<IEnumerable<MenuItemDto>>(menuItems);
+            return menuItemDtos;
         }
 
         public async Task<MenuItemDto> GetMenuItemById(Guid id)
@@ -35,7 +39,8 @@ namespace SpecificationPattern.Application.ApplicationServices
                 throw new Exception($"MenuItem with ID {id} could not be found");
             }
 
-            return new MenuItemDto(menuItem);
+            var menuItemDto = _mapper.Map<MenuItemDto>(menuItem);
+            return menuItemDto;
         }
 
         public async Task<IEnumerable<MenuItemDto>> GetAllMenuItemsWithFilters(FilterDto filters)
@@ -63,7 +68,8 @@ namespace SpecificationPattern.Application.ApplicationServices
 
             var menuItems = await _menuItemRepository.All(specification);
 
-            return menuItems.Select(menuItem => new MenuItemDto(menuItem));
+            var menuItemDtos = _mapper.Map<IEnumerable<MenuItemDto>>(menuItems);
+            return menuItemDtos;
         }
     }
 }

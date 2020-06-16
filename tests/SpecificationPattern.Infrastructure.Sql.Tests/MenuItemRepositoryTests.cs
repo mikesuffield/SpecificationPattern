@@ -66,7 +66,8 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                 },
             }.AsEnumerable();
             var getAllMenuItemsQuery = "SELECT * FROM MenuItems";
-            mockUnitOfWork.Setup(x => x.Query<MenuItem>(getAllMenuItemsQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Query<MenuItem>(getAllMenuItemsQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(menuItems));
 
             var allergens = new List<Allergen>
@@ -79,7 +80,8 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                 }
             }.AsEnumerable();
             var getAllAllergensQuery = "SELECT * FROM Allergens";
-            mockUnitOfWork.Setup(x => x.Query<Allergen>(getAllAllergensQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Query<Allergen>(getAllAllergensQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(allergens));
 
             var SUT = Setup(mockUnitOfWork);
@@ -116,7 +118,8 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                     MealType = MealType.Main,
                 },
             }.AsEnumerable();
-            mockUnitOfWork.Setup(x => x.Query<MenuItem>(getMenuItemsByIdQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Query<MenuItem>(getMenuItemsByIdQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(menuItems));
 
             var getAllergensByMenuItemIdQuery = "SELECT * FROM Allergens WHERE MenuItemId = @id";
@@ -129,7 +132,8 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
                     AllergenType = AllergenType.Soya,
                 },
             }.AsEnumerable();
-            mockUnitOfWork.Setup(x => x.Query<Allergen>(getAllergensByMenuItemIdQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Query<Allergen>(getAllergensByMenuItemIdQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(allergens));
 
             var SUT = Setup(mockUnitOfWork);
@@ -153,11 +157,13 @@ namespace SpecificationPattern.Infrastructure.Sql.Tests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             
             var deleteAllergenQuery = "DELETE FROM Allergens WHERE Id = @id AND RowRevision = @rowRevision";
-            mockUnitOfWork.Setup(x => x.Execute(deleteAllergenQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Execute(deleteAllergenQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(1));
 
             var deleteMenuItemQuery = "DELETE FROM MenuItems WHERE Id = @id AND RowRevision = @rowRevision";
-            mockUnitOfWork.Setup(x => x.Execute(deleteMenuItemQuery, It.IsAny<Dictionary<string, object>>()))
+            mockUnitOfWork
+                .Setup(x => x.Execute(deleteMenuItemQuery, It.IsAny<Dictionary<string, object>>()))
                 .Returns(Task.FromResult(1));
 
             var SUT = Setup(mockUnitOfWork);

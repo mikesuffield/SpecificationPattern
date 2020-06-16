@@ -105,13 +105,16 @@ namespace SpecificationPattern.Api.Tests
         private MenuItemsController Setup()
         {
             var mockShowMenuItemViewModelService = new Mock<IShowMenuItemViewModelService>();
-            mockShowMenuItemViewModelService.Setup(x => x.GetMenuItems(FilterViewModel))
+            mockShowMenuItemViewModelService
+                .Setup(x => x.GetMenuItems(FilterViewModel))
                 .Returns(Task.FromResult(MenuItems));
-            mockShowMenuItemViewModelService.Setup(x => x.GetById(It.IsAny<Guid>()))
+            mockShowMenuItemViewModelService
+                .Setup(x => x.GetById(It.IsAny<Guid>()))
                 .Returns(Task.FromResult(MenuItem));
 
             var mockMenuItemViewModelService = new Mock<IMenuItemViewModelService>();
-            mockMenuItemViewModelService.Setup(x => x.Create(It.IsAny<CreateMenuItemViewModel>()))
+            mockMenuItemViewModelService
+                .Setup(x => x.Create(It.IsAny<CreateMenuItemViewModel>()))
                 .Returns(Task.FromResult(MenuItem));
 
             var mockLogger = new Mock<ILogger<MenuItemsController>>();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace SpecificationPattern.Shared.Extensions
@@ -12,10 +13,10 @@ namespace SpecificationPattern.Shared.Extensions
 
             if (memberInfo != null && memberInfo.Length > 0)
             {
-                var displayAttributes = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false);
+                var displayAttributes = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false);
                 if ((displayAttributes != null && displayAttributes.Count() > 0))
                 {
-                    return ((System.ComponentModel.DataAnnotations.DisplayAttribute)displayAttributes.ElementAt(0)).Name;
+                    return ((DisplayAttribute)displayAttributes.ElementAt(0)).Name;
                 }
             }
 

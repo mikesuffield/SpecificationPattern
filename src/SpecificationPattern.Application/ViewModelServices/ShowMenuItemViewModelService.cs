@@ -1,4 +1,5 @@
-﻿using SpecificationPattern.Application.ApplicationServices;
+﻿using AutoMapper;
+using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
 using SpecificationPattern.Application.ViewModels;
 using SpecificationPattern.Shared.Enums;
@@ -13,17 +14,20 @@ namespace SpecificationPattern.Application.ViewModelServices
     public class ShowMenuItemViewModelService : IShowMenuItemViewModelService
     {
         private readonly IShowMenuItemService _showMenuItemService;
+        private readonly IMapper _mapper;
 
-        public ShowMenuItemViewModelService(IShowMenuItemService showMenuItemService)
+        public ShowMenuItemViewModelService(IShowMenuItemService showMenuItemService, IMapper mapper)
         {
             _showMenuItemService = showMenuItemService;
+            _mapper = mapper;
         }
 
         public async Task<ShowMenuItemViewModel> GetById(Guid id)
         {
             var menuItemDto = await _showMenuItemService.GetMenuItemById(id);
 
-            return new ShowMenuItemViewModel(menuItemDto);
+            var showMenuItemVeiwModel = _mapper.Map<ShowMenuItemViewModel>(menuItemDto);
+            return showMenuItemVeiwModel;
         }
 
         public async Task<IEnumerable<ShowMenuItemViewModel>> GetMenuItems(FilterViewModel filters)
@@ -45,7 +49,8 @@ namespace SpecificationPattern.Application.ViewModelServices
                 menuItemDtos = await _showMenuItemService.GetAllMenuItemsWithFilters(filterDto);
             }
 
-            return menuItemDtos.Select(menuItemDto => new ShowMenuItemViewModel(menuItemDto));
+            var showMenuItemViewModels = _mapper.Map<IEnumerable<ShowMenuItemViewModel>>(menuItemDtos);
+            return showMenuItemViewModels;
         }
     }
 }

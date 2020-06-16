@@ -1,46 +1,11 @@
-﻿using SpecificationPattern.Application.ViewModels;
-using SpecificationPattern.Core.Models;
-using SpecificationPattern.Shared.Enums;
-using SpecificationPattern.Shared.Extensions;
+﻿using SpecificationPattern.Shared.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SpecificationPattern.Application.DTOs
 {
     public class MenuItemDto
     {
-        public MenuItemDto()
-        {
-
-        }
-
-        public MenuItemDto(MenuItem menuItem)
-        {
-            Id = menuItem.Id;
-            Name = menuItem.Name;
-            Price = menuItem.Price;
-            MealType = menuItem.MealType;
-            Allergens = menuItem.Allergens.Select(allergen => new AllergenDto
-            {
-                Id = allergen.Id,
-                AllergenType = allergen.AllergenType,
-            });
-        }
-
-        public MenuItemDto(CreateMenuItemViewModel createMenuItemViewModel)
-        {
-            Id = Guid.NewGuid();
-            Name = createMenuItemViewModel.Name;
-            Price = createMenuItemViewModel.Price;
-            MealType = createMenuItemViewModel.MealType.ToEnum<MealType>();
-            Allergens = createMenuItemViewModel.Allergens.Select(allergen => new AllergenDto
-            {
-                Id = Guid.NewGuid(),
-                AllergenType = allergen.ToEnum<AllergenType>(),
-            });
-        }
-
         public Guid Id { get; set; }
 
         public string Name { get; set; }

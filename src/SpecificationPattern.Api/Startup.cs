@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using SpecificationPattern.Application.ViewModelServices;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Infrastructure.Sql;
 using SpecificationPattern.Shared.Interfaces;
+using System;
 
 namespace SpecificationPattern
 {
@@ -24,6 +26,8 @@ namespace SpecificationPattern
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IShowMenuItemViewModelService, ShowMenuItemViewModelService>();

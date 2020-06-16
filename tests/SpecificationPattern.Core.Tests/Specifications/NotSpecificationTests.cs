@@ -13,7 +13,9 @@ namespace SpecificationPattern.Core.Tests.Specifications
         public void IsSatisfiedBy_ReturnsCorrectValue()
         {
             var mockSpecification = new Mock<ISpecification<object>>();
-            mockSpecification.Setup(x => x.IsSatisfiedBy(It.IsAny<object>())).Returns(false);
+            mockSpecification
+                .Setup(x => x.IsSatisfiedBy(It.IsAny<object>()))
+                .Returns(false);
 
             var notSpecification = mockSpecification.Object.Not();
             var result = notSpecification.IsSatisfiedBy(It.IsAny<object>());
@@ -28,7 +30,8 @@ namespace SpecificationPattern.Core.Tests.Specifications
             var parameters = new Dictionary<string, object>();
 
             var mockSpecification = new Mock<ISpecification<object>>();
-            mockSpecification.Setup(x => x.IsSatisfiedBy(builder, parameters))
+            mockSpecification
+                .Setup(x => x.IsSatisfiedBy(builder, parameters))
                 .Callback(() =>
                 {
                     builder.Append("[MealType] = @mealType");

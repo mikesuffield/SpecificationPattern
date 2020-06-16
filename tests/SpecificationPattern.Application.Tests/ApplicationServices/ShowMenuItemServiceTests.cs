@@ -1,7 +1,9 @@
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
+using SpecificationPattern.Application.Profiles;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
 using SpecificationPattern.Core.Specifications;
@@ -42,7 +44,19 @@ namespace SpecificationPattern.Application.Tests
         {
             var SUT = Setup();
 
-            var expectedResult = MenuItems.Select(x => new MenuItemDto(x));
+            var expectedResult = MenuItems.Select(x => new MenuItemDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                MealType = x.MealType,
+                Allergens = x.Allergens.Select(y => new AllergenDto
+                {
+                    Id = y.Id,
+                    AllergenType = y.AllergenType,
+                }),
+            });
+
             var result = await SUT.GetAllMenuItems();
 
             result.Should().BeEquivalentTo(expectedResult);
@@ -53,7 +67,19 @@ namespace SpecificationPattern.Application.Tests
         {
             var SUT = Setup();
 
-            var expectedResult = new MenuItemDto(MenuItem);
+            var expectedResult = new MenuItemDto
+            {
+                Id = MenuItem.Id,
+                Name = MenuItem.Name,
+                Price = MenuItem.Price,
+                MealType = MenuItem.MealType,
+                Allergens = MenuItem.Allergens.Select(y => new AllergenDto
+                {
+                    Id = y.Id,
+                    AllergenType = y.AllergenType,
+                }),
+            };
+
             var result = await SUT.GetMenuItemById(MenuItem.Id);
 
             result.Should().BeEquivalentTo(expectedResult);
@@ -64,7 +90,18 @@ namespace SpecificationPattern.Application.Tests
         {
             var SUT = Setup();
 
-            var expectedResult =  MenuItems.Select(x => new MenuItemDto(x));
+            var expectedResult =  MenuItems.Select(x => new MenuItemDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                MealType = x.MealType,
+                Allergens = x.Allergens.Select(y => new AllergenDto
+                {
+                    Id = y.Id,
+                    AllergenType = y.AllergenType,
+                }),
+            });
 
             var filterDto = new FilterDto
             {
@@ -82,14 +119,23 @@ namespace SpecificationPattern.Application.Tests
         private ShowMenuItemService Setup()
         {
             var mockRepository = new Mock<IMenuItemRepository>();
-            mockRepository.Setup(x => x.All())
+            mockRepository
+                .Setup(x => x.All())
                 .Returns(Task.FromResult(MenuItems));
-            mockRepository.Setup(x => x.Find(MenuItem.Id))
+            mockRepository
+                .Setup(x => x.Find(MenuItem.Id))
                 .Returns(Task.FromResult(MenuItem));
-            mockRepository.Setup(x => x.All(It.IsAny<ISpecification<MenuItem>>()))
+            mockRepository
+                .Setup(x => x.All(It.IsAny<ISpecification<MenuItem>>()))
                 .Returns(Task.FromResult(MenuItems));
 
-            var SUT = new ShowMenuItemService(mockRepository.Object);
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MenuItemProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+            var SUT = new ShowMenuItemService(mockRepository.Object, mapper);
 
             return SUT;
         }

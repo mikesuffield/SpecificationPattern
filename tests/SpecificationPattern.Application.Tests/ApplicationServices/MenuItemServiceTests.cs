@@ -1,7 +1,9 @@
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using SpecificationPattern.Application.ApplicationServices;
 using SpecificationPattern.Application.DTOs;
+using SpecificationPattern.Application.Profiles;
 using SpecificationPattern.Core.Interfaces;
 using SpecificationPattern.Core.Models;
 using SpecificationPattern.Shared.Enums;
@@ -69,12 +71,20 @@ namespace SpecificationPattern.Application.Tests
 
         private MenuItemService Setup()
         {
-            MockRepository.Setup(x => x.Add(It.IsAny<MenuItem>()))
+            MockRepository
+                .Setup(x => x.Add(It.IsAny<MenuItem>()))
                 .Returns(Task.FromResult(MenuItem));
-            MockRepository.Setup(x => x.Find(MenuItem.Id))
+            MockRepository
+                .Setup(x => x.Find(MenuItem.Id))
                 .Returns(Task.FromResult(MenuItem));
 
-            var SUT = new MenuItemService(MockRepository.Object);
+            var mapperConfig = new MapperConfiguration(c =>
+            {
+                c.AddProfile<MenuItemProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+            var SUT = new MenuItemService(MockRepository.Object, mapper);
 
             return SUT;
         }
