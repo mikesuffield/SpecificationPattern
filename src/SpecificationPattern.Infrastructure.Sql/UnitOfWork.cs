@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace SpecificationPattern.Infrastructure.Sql
 {
@@ -81,6 +82,11 @@ namespace SpecificationPattern.Infrastructure.Sql
         public async Task<IEnumerable<T>> Query<T>(string statement, IDictionary<string, object> parameters = null)
         {
             return await _sqlConnection.QueryAsync<T>(statement, parameters, _sqlTransaction);
+        }
+
+        public async Task<GridReader> QueryMultiple(string statements, IDictionary<string, object> parameters = null)
+        {
+            return await _sqlConnection.QueryMultipleAsync(statements, parameters);
         }
 
         private void BeginTransaction()

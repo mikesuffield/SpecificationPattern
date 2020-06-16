@@ -34,13 +34,14 @@ namespace SpecificationPattern.Infrastructure.Sql
 
         public async Task<IEnumerable<MenuItem>> All()
         {
-            var getAllMenuItemsQuery = "SELECT * FROM MenuItems";
-            var menuItems = await UnitOfWork.Query<MenuItem>(getAllMenuItemsQuery);
+            var queries = "SELECT * FROM MenuItems; SELECT * FROM Allergens";
+
+            var result = await UnitOfWork.QueryMultiple(queries);
+            var menuItems = result.Read<MenuItem>(true);
 
             if (menuItems.Any())
             {
-                var getAllAllergensQuery = "SELECT * FROM Allergens";
-                var allergens = await UnitOfWork.Query<Allergen>(getAllAllergensQuery);
+                var allergens = result.Read<Allergen>(true);
 
                 foreach (var menuItem in menuItems)
                 {
@@ -88,19 +89,19 @@ namespace SpecificationPattern.Infrastructure.Sql
                 { "id", id },
             };
 
-            var getMenuItemsByIdQuery = "SELECT * FROM MenuItems WHERE Id = @id";
-            var menuItems = await UnitOfWork.Query<MenuItem>(getMenuItemsByIdQuery, idParameter);
-           
-            var menuItem = menuItems.SingleOrDefault();
+            string queries = "SELECT * FROM MenuItems WHERE Id = @id; SELECT * FROM Allergens WHERE MenuItemId = @id";
+
+            var result = await UnitOfWork.QueryMultiple(queries, idParameter);
+
+            var menuItem = result.ReadSingleOrDefault<MenuItem>();
+
             if (menuItem == null)
             {
                 _logger.LogInformation($"MenuItem with id {id} could not be found");
                 return null;
             }
 
-            var getAllergensByMenuItemIdQuery = "SELECT * FROM Allergens WHERE MenuItemId = @id";
-            var allergens = await UnitOfWork.Query<Allergen>(getAllergensByMenuItemIdQuery, idParameter);
-            menuItem.Allergens = allergens;
+            menuItem.Allergens = result.Read<Allergen>();
 
             return menuItem;
         }
